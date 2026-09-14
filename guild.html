@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Тест</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f1f5f9; color: #0f172a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
+    .card { background: #ffffff; width: 100%; max-width: 440px; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .progress-bar { width: 100%; height: 6px; background-color: #e2e8f0; border-radius: 999px; margin-bottom: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background-color: #4f46e5; transition: width 0.3s ease; }
+    .step-counter { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px; text-transform: uppercase; }
+    h2 { font-size: 19px; font-weight: 700; margin-bottom: 20px; line-height: 1.35; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn { width: 100%; text-align: left; padding: 14px 16px; font-size: 15px; color: #1e293b; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; cursor: pointer; }
+    .option-btn:active { background: #e0e7ff; border-color: #4f46e5; }
+    .hidden { display: none; }
+    .result-badge { display: inline-block; padding: 4px 12px; background: #e0e7ff; color: #4338ca; border-radius: 999px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+    .result-img { width: 100%; max-height: 240px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; }
+    .result-desc { font-size: 15px; line-height: 1.6; color: #475569; margin-bottom: 24px; }
+    .restart-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 600; color: #fff; background: #4f46e5; border: none; border-radius: 12px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div id="quiz-screen">
+      <div class="progress-bar">
+        <div id="progress" class="progress-fill"></div>
+      </div>
+      <div id="step-counter" class="step-counter"></div>
+      <h2 id="question-text"></h2>
+      <div id="options-container" class="options"></div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+      <div class="result-badge">Ваш результат</div>
+      <h2 id="result-title"></h2>
+      <img id="result-image" class="result-img hidden" src="" alt="Иллюстрация результата">
+      <p id="result-desc" class="result-desc"></p>
+      <button class="restart-btn" onclick="restartQuiz()">Пройти еще раз</button>
+    </div>
+  </div>
+
+  <script>
+    // ответы
+    const results = {
+      paladin: {
+        title: "Паладин",
+        desc: "Оберегай близких тебе и помогай нуждающимся! Да булет твой путь светел.",
+        image: "images/warrior.jpg" 
+      },
+      bard: {
+        title: "Бард",
+        desc: "Счастье не в конечном результате, а в людях, с которыми его провел",
+        image: "images/burn.jpg"
+      },
+      alchemy: {
+        title: "Алхимик",
+        desc: "Трансмутация привычных устоев приводит к невероятным открытиям",
+        image: "images/mage.jpg"
+      }
+    };
+
+    // вопросы
+    const questions = [
+    //вопрос 1
+      {
+        text: "С чего начинается ваш идеальный день?",
+        options: [
+          { text: "С чашечки кофе и составления планов", scores: { alchemy: 2, paladin: 1 } },
+          { text: "С помощи товарищам", scores: { paladin: 2, bard: 1 } },
+          { text: "Придумываю новые истории", scores: { bard: 3 } }
+        ]
+      },
+    //вопрос 2
+      {
+        text: "Если у команды возникают проблемы:",
+        options: [
+          { text: "Беру удар на себя", scores: { paladin: 3 } },
+          { text: "Рассказываю шутку и успокаиваю", scores: { bard: 3 } },
+          { text: "Спокойно ищу решение", scores: { alchemy: 3 } }
+        ]
+      },
+    //вопрос 3
+      {
+        text: "Если жизнь даёт тебе лимоны:",
+        options: [
+          { text: "Сварю из них лимонад", scores: { alchemy: 3 } },
+          { text: "Продам и разбогатею", scores: { bard: 3 } },
+          { text: "Узнаю, откуда они взялись и почему оказались здесь", scores: { paladin: 3 } }
+        ]
+      }
+    ];
+
+    
+    let currentIndex = 0;
+    const scores = {};
+
+    function initScores() {
+      Object.keys(results).forEach(k => scores[k] = 0);
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("step-counter").innerText = `Вопрос ${currentIndex + 1} из ${questions.length}`;
+      document.getElementById("question-text").innerText = q.text;
+      document.getElementById("progress").style.width = `${(currentIndex / questions.length) * 100}%`;
+
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt.text;
+        btn.onclick = () => {
+          for (let k in opt.scores) {
+            if (scores[k] !== undefined) scores[k] += opt.scores[k];
+          }
+          currentIndex++;
+          if (currentIndex < questions.length) {
+            renderQuestion();
+          } else {
+            showResult();
+          }
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function showResult() {
+      document.getElementById("quiz-screen").classList.add("hidden");
+      document.getElementById("result-screen").classList.remove("hidden");
+
+      let winner = Object.keys(scores)[0];
+      for (let k in scores) {
+        if (scores[k] > scores[winner]) winner = k;
+      }
+
+      const res = results[winner];
+      document.getElementById("result-title").innerText = res.title;
+      document.getElementById("result-desc").innerText = res.desc;
+
+      const imgEl = document.getElementById("result-image");
+      if (res.image) {
+        imgEl.src = res.image;
+        imgEl.classList.remove("hidden");
+      } else {
+        imgEl.classList.add("hidden");
+      }
+    }
+
+    function restartQuiz() {
+      currentIndex = 0;
+      initScores();
+      document.getElementById("result-screen").classList.add("hidden");
+      document.getElementById("quiz-screen").classList.remove("hidden");
+      renderQuestion();
+    }
+
+    initScores();
+    renderQuestion();
+  </script>
+</body>
+</html>
