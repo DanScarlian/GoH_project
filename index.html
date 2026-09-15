@@ -13,6 +13,7 @@
     .progress-fill { height: 100%; width: 0%; background-color: #EF0909; transition: width 0.3s ease; }
     .step-counter { font-size: 13px; font-weight: 600; color: #ffffff; margin-bottom: 8px; text-transform: uppercase; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;}
     h2 { font-size: 19px; font-weight: 700; margin-bottom: 20px; line-height: 1.35; }
+    #question-text {color: #000000;}
     .options { display: flex; flex-direction: column; gap: 10px; }
     .option-btn { width: 100%; text-align: left; padding: 14px 16px; font-size: 15px; color: #1e293b; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; cursor: pointer; }
     .option-btn:active { background: #e0e7ff; border-color: #EF0909; }
@@ -51,27 +52,27 @@
       paladin: {
         title: "Паладин",
         desc: "Оберегай близких тебе и помогай нуждающимся! Да булет твой путь светел.",
-        image: "images/warrior.jpg" 
+        image: "images/warrior.png" 
       },
       bard: {
         title: "Бард",
         desc: "Счастье не в конечном результате, а в людях, с которыми его провел",
-        image: "images/burn.jpg"
+        image: "images/bard.png"
       },
       alchemy: {
         title: "Алхимик",
         desc: "Трансмутация привычных устоев приводит к невероятным открытиям",
-        image: "images/mage.jpg"
+        image: "images/mage.png"
       },
-      object_1: {
-        title: "untitle_1",
+      druid: {
+        title: "Друид",
         desc: "чем дальше в лес, скибиди доб доп ес ес",
-        image: "images/ob1.jpg"
+        image: "images/druid.png"
       },
-      object_2: {
-        title: "untitle_2",
+      rogue: {
+        title: "Плут",
         desc: "за двумя зайцами воробей с яйцами",
-        image: "images/ob2.jpg"
+        image: "images/rogue.png"
       },
     };
 
@@ -81,135 +82,135 @@
       {
         text: "С чего начинается ваш идеальный день?",
         options: [
-          { text: "С чашечки кофе и составления планов", scores: { alchemy: 2, paladin: 1 } },
-          { text: "С помощи товарищам", scores: { paladin: 2, bard: 1 } },
-          { text: "Придумываю новые истории", scores: { bard: 3 } }
+          { text: "С чашечки кофе и составления планов", scores: { alchemy: 2, bard: 0,  paladin: 1, druid: 0, rogue: 1 } },
+          { text: "С помощи товарищам", scores: { alchemy: 0, bard: 1,  paladin: 2, druid: 0, rogue: 0 } },
+          { text: "Придумываю новые истории", scores: { alchemy: 0, bard: 3,  paladin: 0, druid: 1, rogue: 2 } }
         ]
       },
     //вопрос 2
       {
         text: "Если у команды возникают проблемы:",
         options: [
-          { text: "Беру удар на себя", scores: { paladin: 3 } },
-          { text: "Рассказываю шутку и успокаиваю", scores: { bard: 3 } },
-          { text: "Спокойно ищу решение", scores: { alchemy: 3 } }
+          { text: "Беру удар на себя", scores: { alchemy: 0, bard: 0,  paladin: 3, druid: 2, rogue: 0 } },
+          { text: "Рассказываю шутку и успокаиваю", scores: { alchemy: 0, bard: 3,  paladin: 0, druid: 1, rogue: 2 } },
+          { text: "Спокойно ищу решение", scores: { alchemy: 3, bard: 0,  paladin: 0, druid: 0, rogue: 2 } }
         ]
       },
     //вопрос 3
       {
         text: "Если жизнь даёт тебе лимоны:",
         options: [
-          { text: "Сварю из них лимонад", scores: { alchemy: 3 } },
-          { text: "Продам и разбогатею", scores: { bard: 3 } },
-          { text: "Узнаю, откуда они взялись и почему оказались здесь", scores: { paladin: 3 } }
+          { text: "Сварю из них лимонад", scores: { alchemy: 3, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "Продам и разбогатею", scores: { alchemy: 0, bard: 3,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "Узнаю, откуда они взялись и почему оказались здесь", scores: { alchemy: 0, bard: 0,  paladin: 3, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 4
       {
-        text: "Чем дальше в лес...",
+        text: "Большая лягушка встаёт у тебя на пути",
         options: [
-          { text: "...тем больше грибов", scores: { alchemy: 3 } },
-          { text: "...скибиди доп доп ес ес", scores: { object_2: 99 } },
-          { text: "...тем дальше в лес", scores: { object_1: 99 } }
+          { text: "Ква, ква?", scores: { alchemy: 1, bard: 2,  paladin: 0, druid: 1, rogue: 3 } },
+          { text: "Приму бой!", scores: { alchemy: 0, bard: 0,  paladin: 2, druid: 0, rogue: 3 } },
+          { text: "Фрогги, я пришел договориться!", scores: { alchemy: 0, bard: 2,  paladin: 0, druid: 3, rogue: 0 } }
         ]
       },
       //вопрос 5
       {
-        text: "вопрос.",
+        text: "Ты приходишь к аудитории по расписанию, но дверь закрыта",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "Можно тихо уйти", scores: { alchemy: 0, bard: 2,  paladin: 0, druid: 0, rogue: 3 } },
+          { text: "Ждать...", scores: { alchemy: 0, bard: 2,  paladin: 3, druid: 1, rogue: 0 } },
+          { text: "Схожу в деканат и узнаю информацию", scores: { alchemy: 3, bard: 0,  paladin: 3, druid: 2, rogue: 0 } }
         ]
       },
       //вопрос 6
       {
-        text: "вопрос.",
+        text: "Загадочный торговец предлагает тебе мистический артефакт",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "Ура, неизвестность!", scores: { alchemy: 2, bard: 3,  paladin: 0, druid: 0, rogue: 2 } },
+          { text: "Спросить у него про артефакт", scores: { alchemy: 3, bard: 1,  paladin: 3, druid: 2, rogue: 2 } },
+          { text: "Начать торговаться", scores: { alchemy: 1, bard: 2,  paladin: 0, druid: 2, rogue: 3 } }
         ]
       },
       //вопрос 7
       {
-        text: "вопрос.",
+        text: "Перед тобой стоит рыцарь и требует извинений",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "Извини", scores: { alchemy: 0, bard: 3,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "Вызываю тебя на дуэль!", scores: { alchemy: 1, bard: 0,  paladin: 3, druid: 1, rogue: 2 } },
+          { text: "Узнать, за что извиняться", scores: { alchemy: 3, bard: 0, paladin: 2, druid: 1, rogue: 2 } }
         ]
       },
       //вопрос 8
       {
-        text: "вопрос.",
+        text: "7 раз отмерь...",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "1 раз отрежь", scores: { alchemy: 0, bard: 0,  paladin: 3, druid: 2, rogue: 0 } },
+          { text: "Все равно криво будет", scores: { alchemy: 0, bard: 3,  paladin: 1, druid: 1, rogue: 3 } },
+          { text: "Инженер в соседней комнате", scores: { alchemy: 3, bard: 2,  paladin: 1, druid: 0, rogue: 1 } }
         ]
       },
       //вопрос 9
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 10
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 11
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 12
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 13
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 14
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       },
       //вопрос 15
       {
         text: "вопрос.",
         options: [
-          { text: "ответ 1", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 2", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } },
-          { text: "ответ 3", scores: { alchemy: 1, bard: 1,  paladin: 1, object_1: 1, object_2: 1 } }
+          { text: "ответ 1", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 2", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } },
+          { text: "ответ 3", scores: { alchemy: 0, bard: 0,  paladin: 0, druid: 0, rogue: 0 } }
         ]
       }
     ];
